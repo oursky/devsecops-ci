@@ -1,0 +1,24 @@
+branches:
+  only:
+    - master
+    - staging
+    - experimental
+
+matrix:
+  include:
+    # devsecops-ci docker
+    - language: python
+      python: 3.6
+      sudo: required
+      addons:
+        apt:
+          packages:
+            - docker-ce
+      services:
+        - docker
+      script:
+        - docker build -t devsecops-ci .
+        - docker run -it --rm devsecops-ci ./run.sh -d /target -v "`pwd`:/target:ro"
+
+notifications:
+  email: false

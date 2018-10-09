@@ -17,8 +17,8 @@ matrix:
       services:
         - docker
       script:
-        - docker build -t devsecops-ci .
-        - docker run -it --rm devsecops-ci ./run.sh -d /target -v "`pwd`:/target:ro"
+        - make build
+        - make test
 
 notifications:
   email: false

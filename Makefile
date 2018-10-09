@@ -1,6 +1,6 @@
 TESTCASES:=$(wildcard testcase/*)
 
-.PHONY: all build test clean
+.PHONY: all build test selftest clean
 
 all: build
 
@@ -19,3 +19,5 @@ test:
 	  fi \
 	done
 
+selftest:
+	@docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci ./run.sh -d=/target

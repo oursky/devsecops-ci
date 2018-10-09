@@ -1,6 +1,3 @@
-REQUIREMENTS:=$(shell find $(TARGET_DIR)/ -type f -name 'require*.txt')
-REQUIREMENTS_FLAGS=$(patsubst %,-r %,$(REQUIREMENTS))
-
 .PHONY: all build check 
 
 all: build
@@ -13,9 +10,12 @@ check: FORCE
 	@if [ -f $(TARGET_DIR)/devsecops-ci.conf ]; then \
 	  safety check --cache \
 	    `sed -e 's/[[:space:]]*\:[[:space:]]*/:/g' $(TARGET_DIR)/devsecops-ci.conf | sed -n '/^\[py-safety\]/,/^\[.*\]/p' | grep "^[[:space:]]*arguments[[:space:]]*:" | sed 's/.*\:[[:space:]]*//'` \
-	    $(REQUIREMENTS_FLAGS); \
+	    `find $(TARGET_DIR)/ \
+		  \`sed -e 's/[[:space:]]*\:[[:space:]]*/:/g' $(TARGET_DIR)/devsecops-ci.conf | sed -n '/^\[py-safety\]/,/^\[.*\]/p' | grep "^[[:space:]]*exclude[[:space:]]*:" | sed 's/.*\:[[:space:]]*//' | sed 's/,/ /g' | sed 's/.*/-type d -name & -prune -o/g'\` \
+	          -type f -name 'require*.txt' -print | sed 's/.*/-r &/g'`; \
 	else \
-	  safety check --cache $(REQUIREMENTS_FLAGS); \
+	  safety check --cache \
+	    `find $(TARGET_DIR)/ -type f -name 'require*.txt' -print | sed 's/.*/-r &/g'`; \
 	fi
 
 FORCE:

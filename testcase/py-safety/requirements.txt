@@ -1,0 +1,2 @@
+# pycrypto 2.6.1 has known vulnerabilities: https://www.cvedetails.com/vulnerability-list/vendor_id-11993/product_id-22441/version_id-208023/year-2017/Dlitz-Pycrypto-2.6.1.html
+pycrypto==2.6.1

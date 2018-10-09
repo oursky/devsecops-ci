@@ -38,10 +38,8 @@ docker build -t devsecops-ci .
 ```
 To perform tests, run:
 ```
-#!/bin/bash
-TARGET=`pwd`
-docker run -it --rm devsecops-ci ./run.sh -d /target -v "$TARGET:/target:ro"
-if [ $? -ne 0 ]; then
+#!/bin/bash -e
+if ! docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci ./run.sh -d=/target; then
   echo failed.
   exit 1
 fi
@@ -49,7 +47,7 @@ exit 0
 ```
 or simply
 ```
-docker run -it --rm devsecops-ci ./run.sh -d /target -v "`pwd`:/target:ro"
+docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci ./run.sh -d=/target
 ```
 
 This run check against current `pwd`

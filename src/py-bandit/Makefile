@@ -1,3 +1,7 @@
+.PHONY: all build check
+
+all: build
+
 build:
 	@pip install -r requirements.txt
 

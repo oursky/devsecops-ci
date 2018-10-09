@@ -55,7 +55,7 @@ or simply
 docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci ./run.sh -d=/target
 ```
 
-This run check against current `pwd`
+This run check against current `pwd`, this directory should be the top level directory of your project.
 
 You can also build and run it locally on your development computer.
 

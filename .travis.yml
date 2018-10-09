@@ -19,6 +19,7 @@ matrix:
       script:
         - make build
         - make test
+        - make selftest
 
 notifications:
   email: false

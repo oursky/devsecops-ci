@@ -1,0 +1,7 @@
+To suppress particular issue, add a section to devsecops-ci.conf on your target code directory, e.g.
+
+[bandit]
+exclude: alembic,tests
+skips: B123,B456
+
+Check https://github.com/PyCQA/bandit for detail

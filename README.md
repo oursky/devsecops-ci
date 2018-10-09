@@ -31,6 +31,7 @@ In short, _Security as Code, Compliance as Code, Infrastructure as Code_. The go
 
 ## Tests coverage
 - python [safety](https://github.com/pyupio/safety)
+- python [bandit](https://github.com/PyCQA/bandit)
 
 
 ## How to add to your project

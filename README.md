@@ -37,9 +37,11 @@ In short, _Security as Code, Compliance as Code, Infrastructure as Code_. The go
 ## How to add to your project
 To hide dependency packages from polluting workspace, we recommend to use the prebuilt docker image or just `docker build` it on CI.
 ```
-git clone https://github.com/oursky/devsecops-ci.git
-cd devsecops-ci
-docker build -t devsecops-ci .
+docker build -t devsecops-ci https://github.com/oursky/devsecops-ci.git
+```
+To delete the image:
+```
+docker rmi devsecops-ci
 ```
 To perform tests, run:
 ```

@@ -29,6 +29,10 @@ In short, _Security as Code, Compliance as Code, Infrastructure as Code_. The go
 └──────────────┘
 ```
 
+## Tests coverage
+- python [safety](https://github.com/pyupio/safety)
+
+
 ## How to add to your project
 To hide dependency packages from polluting workspace, we recommend to use the prebuilt docker image or just `docker build` it on CI.
 ```
@@ -54,8 +58,6 @@ This run check against current `pwd`
 
 You can also build and run it locally on your development computer.
 
-## Tests coverage
-TBC.
 
 <!-- Markdown link & img dfn's -->
 [travis-url]: https://travis-ci.org/oursky/devsecops-ci

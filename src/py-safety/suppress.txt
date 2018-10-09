@@ -1,0 +1,6 @@
+To suppress particular issue, add a section to devsecops-ci.conf on your target code directory, e.g.
+
+[py-safety]
+arguments: -i 1234 -i 5678
+
+Where 1234 and 5678 are issue ID you want to suppress.

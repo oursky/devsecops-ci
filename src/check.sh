@@ -35,7 +35,7 @@ function main {
         exit 1
     fi
     echo "DevSecOps - Performing checks on $TARGET_DIR."
-    make check VERBOSE=$VERBOSE TARGET_DIR=$TARGET_DIR
+    make check VERBOSE="$VERBOSE" TARGET_DIR="$TARGET_DIR"
     echo "[I] All check PASSED."
 }
 

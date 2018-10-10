@@ -52,10 +52,7 @@ function check {
     if [ -f "${TARGET_DIR}/devsecops-ci.conf" ]; then
         INI_FLAG="--ini ${TARGET_DIR}/devsecops-ci.conf"
     fi
-    if [ "$VERBOSE" == "yes" ]; then
-        VERBOSE_FLAG="-v"
-    fi
-    bandit ${VERBOSE_FLAG} ${INI_FLAG} -r "${TARGET_DIR}"
+    bandit ${INI_FLAG} -r "${TARGET_DIR}"
 }
 
 main $@

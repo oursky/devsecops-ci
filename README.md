@@ -46,7 +46,7 @@ docker rmi devsecops-ci
 To perform tests, run:
 ```
 #!/bin/bash -e
-if ! docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci ./run.sh -d=/target; then
+if ! docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci ./check.sh -d=/target; then
   echo failed.
   exit 1
 fi
@@ -54,7 +54,7 @@ exit 0
 ```
 or simply
 ```
-docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci ./run.sh -d=/target
+docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci ./check.sh -d=/target
 ```
 
 This run check against current `pwd`, this directory should be the top level directory of your project.

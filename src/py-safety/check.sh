@@ -49,6 +49,7 @@ function check {
     local EXTRA_ARGS=
     local EXCLUDE=
     local FILES=
+    local EXCLUDED_FILES=
 
     if [ -f "${TARGET_DIR}/devsecops-ci.conf" ]; then
         EXTRA_ARGS=`sed -e 's/[[:space:]]*\:[[:space:]]*/:/g' "${TARGET_DIR}/devsecops-ci.conf" \
@@ -59,21 +60,35 @@ function check {
                  | sed -n '/^\[py-safety\]/,/^\[.*\]/p' \
                  | grep "^[[:space:]]*exclude[[:space:]]*:" \
                  | sed 's/.*\:[[:space:]]*//' \
-                 | sed 's/,/ /g' \
-                 | sed 's/.*/-type d -name & -prune -o/g'`
+                 | sed 's/,/|/g'`
+        if [ "$EXCLUDE" != "" ]; then
+            FILES=`find "${TARGET_DIR}/" -type f -name 'require*.txt' -print | grep -Ev "${EXCLUDE}" | sed ':a;N;$!ba;s/\n/ /g'`
+            EXCLUDED_FILES=`find "${TARGET_DIR}/" -type f -name 'require*.txt' -print | grep -E "${EXCLUDE}" | sed ':a;N;$!ba;s/\n/ /g'`
+        else
+            FILES=`find "${TARGET_DIR}/" -type f -name 'require*.txt' -print | sed ':a;N;$!ba;s/\n/ /g'`
+        fi
+    else
+        FILES=`find "${TARGET_DIR}/" -type f -name 'require*.txt' -print | sed ':a;N;$!ba;s/\n/ /g'`
     fi
-
-    FILES=`find "${TARGET_DIR}/" ${EXCLUDE} -type f -name 'require*.txt' -print | sed ':a;N;$!ba;s/\n/ /g'`
     if [ "$VERBOSE" == "yes" ]; then
         echo "[I] Checked files:"
         for f in ${FILES}
         do
             echo "    - $f"
         done
+        if [ "$EXCLUDED_FILES" != "" ]; then
+            echo "[I] Excluded files:"
+            for f in ${EXCLUDED_FILES}
+            do
+                echo "    - $f"
+            done
+        fi
     fi
-    safety check --cache --full-report \
-        ${EXTRA_ARGS} \
-        `echo ${FILES} | sed 's/[^ ]* */-r &/g'`
+    if [ "$FILES" != "" ]; then
+        safety check --cache --full-report \
+            ${EXTRA_ARGS} \
+            `echo ${FILES} | sed 's/[^ ]* */-r &/g'`
+    fi
 }
 
 main $@

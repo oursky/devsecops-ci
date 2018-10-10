@@ -1,6 +1,6 @@
 FROM python:3.7.0-alpine
 
-RUN apk add --no-cache bash make sed grep
+RUN apk add --no-cache bash make git sed grep
 RUN pip install --upgrade pip
 
 ADD src /usr/local/devsecops-ci

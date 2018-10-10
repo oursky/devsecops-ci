@@ -1,4 +1,4 @@
-TESTCASES:=$(wildcard testcase/*)
+TESTCASES:=$(filter-out testcase/git-secret, $(sort $(wildcard testcase/*)))
 
 .PHONY: all build test selftest clean
 

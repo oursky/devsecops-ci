@@ -1,6 +1,6 @@
 To suppress particular issue, add a section to devsecops-ci.conf on your target code directory, e.g.
 
 [git-secret]
-exclude: dir1/file1,dir1/file2
+exclude: pattern
 
-Where dir1/file1 and dir2/file2 are filenames you want to suppress.
+Where pattern is python compatible regex, eg. .*test.*|dir/file1.

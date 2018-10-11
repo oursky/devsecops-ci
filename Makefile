@@ -20,4 +20,4 @@ test:
 	done
 
 selftest:
-	@docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci ./check.sh -d=/target
+	@docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci ./check.sh --target-dir=/target --commit-range="${TRAVIS_COMMIT_RANGE}"

@@ -30,6 +30,7 @@ In short, _Security as Code, Compliance as Code, Infrastructure as Code_. The go
 ```
 
 ## Tests coverage
+- potential secret committed to git
 - python [safety](https://github.com/pyupio/safety)
 - python [bandit](https://github.com/PyCQA/bandit)
 
@@ -45,17 +46,10 @@ docker rmi devsecops-ci
 ```
 To perform tests, run:
 ```
-#!/bin/bash -e
-if ! docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci ./check.sh -d=/target; then
-  echo failed.
-  exit 1
-fi
-exit 0
+docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci ./check.sh --target-dir=/target --commit-range=rev1..rev2
 ```
-or simply
-```
-docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci ./check.sh -d=/target
-```
+Where `--target-dir` points to the mounted directory in `-v flag`, `--commit-range` is optional to limit checking commit revisions, e.g. `--commit-range=${TRAVIS_COMMIT_RANGE}`
+
 
 This run check against current `pwd`, this directory should be the top level directory of your project.
 

@@ -1,10 +1,11 @@
 .PHONY: all build check 
 
 all: build
+	@pip install -r requirements.txt
 
 build:
 
 check: FORCE
-	@./check.sh -d=$(TARGET_DIR) --verbose=$(VERBOSE)
+	@python main.py --target-dir="$(TARGET_DIR)" --verbose="$(VERBOSE)" --commit-range="$(COMMIT_RANGE)"
 
 FORCE:

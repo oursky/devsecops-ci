@@ -3,6 +3,7 @@
 function main {
     # parse command line arguments
     local VERBOSE=yes
+    local CONF_FILE=.devsecops-ci
     local TARGET_DIR=
     local COMMIT_RANGE=
 
@@ -21,7 +22,11 @@ function main {
             VERBOSE="${i#*=}"
             shift
             ;;
-        -t=*|--target-dir=*)
+        --conf-file-dir=*)
+            CONF_FILE="${i#*=}"
+            shift
+            ;;
+        --target-dir=*)
             TARGET_DIR="${i#*=}"
             shift
             ;;
@@ -40,7 +45,7 @@ function main {
         exit 1
     fi
     echo "DevSecOps - Performing checks on $TARGET_DIR."
-    make check VERBOSE="$VERBOSE" TARGET_DIR="$TARGET_DIR" COMMIT_RANGE="$COMMIT_RANGE"
+    make check VERBOSE="$VERBOSE" CONF_FILE="$CONF_FILE" TARGET_DIR="$TARGET_DIR" COMMIT_RANGE="$COMMIT_RANGE"
     echo "[I] All check PASSED."
 }
 

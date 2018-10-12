@@ -21,5 +21,5 @@ check:
 	  fi; \
 	  count=`expr $$count + 1`; \
 	done; \
-	echo "Tests executed: $$count  Tests failed: $$rc"; \
+	echo -e "\n\nTest Summary:\nTests executed: $$count  Tests failed: $$rc"; \
 	if [ "$$rc" != "0" ]; then false; fi

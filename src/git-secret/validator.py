@@ -3,22 +3,25 @@ import collections
 import math
 
 
-RE_WHITELIST_FILENAME = re.compile(".*\/require.*\.txt"
-                                   "|.*\.pbxproj"
-                                   "|.*\.xcworkspace/"
-                                   "|.*package\.json"
-                                   "|.*yarn\.lock")
-RE_BLACKLIST_FILENAME = re.compile(".*\.cer"
-                                   "|.*\.cert"
-                                   "|.*\.key"
-                                   "|.*\.pem")
+RE_WHITELIST_FILENAME = re.compile(".*require.*\.txt$"
+                                   "|.*\.pbxproj$"
+                                   "|.*\.xcworkspace\/"
+                                   "|.*package\.json$"
+                                   "|.*yarn\.lock$"
+                                   "|.*\.htm[l]$"
+                                   "|.*\.css$",
+                                   re.IGNORECASE)
+RE_BLACKLIST_FILENAME = re.compile(".*\.cer[t]$"
+                                   "|.*\.key$"
+                                   "|.*\.pem$",
+                                   re.IGNORECASE)
 RE_BLACKLIST_STRING = re.compile(".*"
-                                 "(APIKEY"
-                                 "|API_KEY"
+                                 "(API[_]?KEY"
                                  "|SECRET"
-                                 "|SENTRY_DSN"
-                                 ")\s?=\s?(\'|\"|http|[0-9a-zA-Z]{12,}).+")
-RE_WORD_DELIMITER = re.compile("\s|\\|{|}|`|=|\(|\)|\/|<|>|\:|\@")
+                                 ")\s?=\s?[\'\"]?[0-9a-zA-Z\~\!\@\#\%\^\&\*\(\)\-\+\`\[\]\{\}\<\>\?\/\=]{12,}"
+                                 "|SENTRY_DSN\s?=\s?[\'\"]?http",
+                                 re.IGNORECASE)
+RE_WORD_DELIMITER = re.compile("\s|\\|{|}|`|=|\(|\)|\[|\]|\/|<|>|\:|\@|\.")
 
 
 # add known false posivive words here...

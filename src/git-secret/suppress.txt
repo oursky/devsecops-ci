@@ -1,4 +1,4 @@
-To suppress particular issue, add a section to devsecops-ci.conf on your target code directory, e.g.
+To suppress particular issue, add a section to .devsecops-ci on your target code directory, e.g.
 
 [git-secret]
 exclude: pattern

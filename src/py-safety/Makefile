@@ -6,6 +6,6 @@ build:
 	@pip install -r requirements.txt
 
 check: FORCE
-	@./check.sh -d=$(TARGET_DIR) --verbose=$(VERBOSE)
+	@./check.sh --verbose="$(VERBOSE)" --conf-file="$(CONF_FILE)" --target-dir="$(TARGET_DIR)"
 
 FORCE:

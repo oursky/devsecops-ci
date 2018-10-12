@@ -46,9 +46,14 @@ docker rmi devsecops-ci
 ```
 To perform tests, run:
 ```
-docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci ./check.sh --target-dir=/target --commit-range=rev1..rev2
+docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci check
+ OR
+docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci check --commit-range=rev1..rev2
+ OR
+docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci check --target-dir=/target --commit-range=rev1..rev2
 ```
-Where `--target-dir` points to the mounted directory in `-v flag`, `--commit-range` is optional to limit checking commit revisions, e.g. `--commit-range=${TRAVIS_COMMIT_RANGE}`
+Where `--target-dir` is optional argument points to the mounted directory, defaults to `/target`.
+`--commit-range` is optional argument to check only selected commit revisions, e.g. `--commit-range=revA..revB` or `--commit-range=${TRAVIS_COMMIT_RANGE}`.
 
 
 This run check against current `pwd`, this directory should be the top level directory of your project.

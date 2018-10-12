@@ -4,7 +4,7 @@ function main {
     # parse command line arguments
     local VERBOSE=yes
     local CONF_FILE=.devsecops-ci
-    local TARGET_DIR=
+    local TARGET_DIR=/target
     local COMMIT_RANGE=
 
     for i in "$@"
@@ -50,7 +50,7 @@ function main {
 }
 
 function show_help {
-    echo "USAGE: check.sh [-v|--verbose] [-h|--help] -d=/path/to/your/code"
+    echo "USAGE: check.sh [-v|--verbose] [-h|--help] [--conf-file=.devsecops-ci] --target-dir=/path/to/your/code"
 }
 
 

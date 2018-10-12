@@ -32,7 +32,8 @@ ScannerReportIncidentCodeTupe = namedtuple('IncidentCode',
 
 class ScannerReportIncidentCode(enum.Enum):
     BLACKLIST_FILENAME = ScannerReportIncidentCodeTupe('B001', 'Blacklisted filename')
-    ENTROPY_STRING = ScannerReportIncidentCodeTupe('E001', 'High entropy string')
+    BLACKLIST_STRING = ScannerReportIncidentCodeTupe('E001', 'Blacklisted string')
+    ENTROPY_STRING = ScannerReportIncidentCodeTupe('E002', 'High entropy string')
 
     @property
     def code(self):

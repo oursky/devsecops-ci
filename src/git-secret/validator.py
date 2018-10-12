@@ -1,21 +1,46 @@
 import re
-import shlex
 import collections
 import math
+
+
+RE_WHITELIST_FILENAME = re.compile(".*\/require.*\.txt"
+                                   "|.*\.pbxproj"
+                                   "|.*\.xcworkspace/"
+                                   "|.*package\.json"
+                                   "|.*yarn\.lock")
+RE_BLACKLIST_FILENAME = re.compile(".*\.cer"
+                                   "|.*\.cert"
+                                   "|.*\.key"
+                                   "|.*\.pem")
+RE_BLACKLIST_STRING = re.compile(".*"
+                                 "(APIKEY"
+                                 "|API_KEY"
+                                 "|SECRET"
+                                 "|SENTRY_DSN"
+                                 ")\s?=\s?(\'|\"|http|[0-9a-zA-Z]{12,}).+")
+RE_WORD_DELIMITER = re.compile("\s|\\|{|}|`|=|\(|\)|\/|<|>|\:|\@")
+
+
+# add known false posivive words here...
+FALSE_POSITIVES = []
 
 
 class SecretValidator():
     @staticmethod
     def whitelist_filename(filename):
-        ex = ".*\/require.*\.txt|.*\.pbxproj|.*package.json|.*yarn.lock"
-        matched = re.compile(ex).match(filename)
+        matched = RE_WHITELIST_FILENAME.match(filename)
         return matched is not None
 
     @staticmethod
     def blacklisted_filename(filename):
-        ex = ".*\.cer|.*\.cert|.*\.key|.*\.pem"
-        matched = re.compile(ex).match(filename)
+        matched = RE_BLACKLIST_FILENAME.match(filename)
         return matched is not None
+
+    @staticmethod
+    def blacklisted_keyword(text):
+        if RE_BLACKLIST_STRING.match(text):
+            return True
+        return False
 
     @staticmethod
     def _shannon_entropy(s):
@@ -25,31 +50,17 @@ class SecretValidator():
         return sum(e_x)
 
     @staticmethod
-    def check_entropy(text, minlen=20, entropy=4.6):
-        try:
-            words = shlex.split(text.replace("\\", '')
-                                    .replace('{', '')
-                                    .replace('}', '')
-                                    .replace('`', ''))
-        except ValueError:
-            words = [text]
-
-        # further split words with =
-        words2 = []
+    def check_entropy(text, minlen=20, entropy=4.5):
+        words = RE_WORD_DELIMITER.split(text)
         for word in words:
-            if not word: continue
-            if word[0] == '\'' or word[0] == '\"':
-                words2.append(word)
-            else:
-                words2.extend(word.split('='))
-
-        for word in words2:
             if not word: continue
             if word[0] == '\'':
                 word = word.strip('\'')
             elif word[0] == '\"':
                 word = word.strip('\"')
             if len(word) < minlen:
+                continue
+            if word in FALSE_POSITIVES:
                 continue
             h = SecretValidator._shannon_entropy(word)
             if h >= entropy:

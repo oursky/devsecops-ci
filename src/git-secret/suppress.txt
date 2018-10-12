@@ -4,3 +4,11 @@ To suppress particular issue, add a section to devsecops-ci.conf on your target 
 exclude: pattern
 
 Where pattern is python compatible regex, eg. .*test.*|dir/file1.
+
+*******************************************
+* IMPORTANT WARNING
+*
+* Secret is found on your codebase!
+* You should revoke the secrets.
+*
+*******************************************

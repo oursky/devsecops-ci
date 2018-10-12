@@ -27,7 +27,9 @@ class SecretValidator():
     @staticmethod
     def check_entropy(text, minlen=20, entropy=4.6):
         try:
-            words = shlex.split(text.strip("\\")
+            words = shlex.split(text.replace("\\", '')
+                                    .replace('{', '')
+                                    .replace('}', '')
                                     .replace('`', ''))
         except ValueError:
             words = [text]

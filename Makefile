@@ -13,11 +13,11 @@ clean:
 test:
 	@for dir in $(TESTCASES); do \
 	  echo "[ ] $$dir"; \
-	  if docker run -it --rm -v "`pwd`/$$dir:/target:ro" devsecops-ci ./check.sh -d=/target > /dev/null; then \
+	  if docker run -it --rm -v "`pwd`/$$dir:/target:ro" devsecops-ci check -d=/target > /dev/null; then \
 	    echo "Check should fail $$dir."; \
 	    exit 1; \
 	  fi \
 	done
 
 selftest:
-	@docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci ./check.sh --target-dir=/target --commit-range="${TRAVIS_COMMIT_RANGE}"
+	@docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci check --target-dir=/target --commit-range="${TRAVIS_COMMIT_RANGE}"

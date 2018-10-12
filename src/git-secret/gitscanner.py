@@ -36,6 +36,15 @@ class GitScanner(Scanner):
             revB = None
         return revA, revB
 
+    def _githash_equal(self, hash1, hash2):
+        if not hash1 or not hash2:
+            return hash1 == hash2
+        if len(hash1) == 12:  # short sha
+            return hash2.startswith(hash1)
+        elif len(hash2) == 12:
+            return hash1.startswith(hash2)
+        return hash1 == hash2
+
     def scan(self):
         report = ScannerReport()
         try:
@@ -54,11 +63,11 @@ class GitScanner(Scanner):
             revAIndex = len(commits) - 1
             revBIndex = 0
             for index in reversed(range(len(commits))):
-                if commits[index].hexsha == revA:
+                if self._githash_equal(commits[index].hexsha, revA):
                     revAIndex = index + 1
                     break
             for index in range(len(commits)):
-                if commits[index].hexsha == revB:
+                if self._githash_equal(commits[index].hexsha, revB):
                     revBIndex = index
                     break
             commits = commits[revBIndex:revAIndex]

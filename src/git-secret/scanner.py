@@ -59,7 +59,7 @@ class ScannerReport:
         self.incidents = []
 
     def dump(self):
-        print("[ ] Scan result: ".format(self.code.name))
+        print("[ ] Scan result: {}".format(self.code.name))
         for incident in self.incidents:
             print("- [{serverity}:{code}] {message}\n"
                   "           File  : {file}\n"

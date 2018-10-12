@@ -37,7 +37,7 @@ function main {
     # validate arguments
     if [ ! -d "$TARGET_DIR" ]; then
         echo "Missing argument --target-dir"
-	show_help
+    show_help
         exit 1
     fi
 
@@ -57,8 +57,6 @@ function check {
     local EXCLUDE=
     local FILES=
     local EXCLUDED_FILES=
-
-    echo "[I] conf: ${TARGET_DIR}/${CONF_FILE}"
 
     if [ -f "${TARGET_DIR}/${CONF_FILE}" ]; then
         EXTRA_ARGS=`sed -e 's/[[:space:]]*\:[[:space:]]*/:/g' "${TARGET_DIR}/${CONF_FILE}" \
@@ -83,13 +81,13 @@ function check {
         echo "[I] Checked files:"
         for f in ${FILES}
         do
-            echo "    - $f"
+            echo "    - ${f#$TARGET_DIR/}"
         done
         if [ "$EXCLUDED_FILES" != "" ]; then
             echo "[I] Excluded files:"
             for f in ${EXCLUDED_FILES}
             do
-                echo "    - $f"
+                echo "    - ${f#$TARGET_DIR/}"
             done
         fi
     fi

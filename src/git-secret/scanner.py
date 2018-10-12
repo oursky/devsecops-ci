@@ -11,12 +11,16 @@ class ScannerReportCode(enum.Enum):
 
 
 ScannerReportSeverityLevelTupe = namedtuple('SeverityLevel',
-                                            ['value', 'short'])
+                                            ['code', 'short'])
 
 class ScannerReportSeverityLevel(enum.Enum):
     INFO = ScannerReportSeverityLevelTupe(0, 'I')
     WARN = ScannerReportSeverityLevelTupe(1, 'W')
     ERROR = ScannerReportSeverityLevelTupe(2, 'E')
+
+    @property
+    def code(self):
+        return self.value.code
 
     @property
     def short(self):
@@ -48,6 +52,19 @@ class ScannerReportIncident():
         self.offend = offend
         self.author = author
 
+    def dump(self):
+        print("- [{serverity}:{code}] {message}\n"
+              "           File  : {file}\n"
+              "           Author: {author}".format(
+                serverity=self.serverity.short,
+                code=self.code.code,
+                file=self.filename,
+                offend=self.offend,
+                author=self.author,
+                message=self.code.description))
+        if self.serverity == ScannerReport.SeverityLevel.ERROR and self.offend:
+            print("         * Offend: {}".format(self.offend))
+
 
 class ScannerReport:
     Code = ScannerReportCode
@@ -60,18 +77,10 @@ class ScannerReport:
 
     def dump(self):
         print("[ ] Scan result: {}".format(self.code.name))
-        for incident in self.incidents:
-            print("- [{serverity}:{code}] {message}\n"
-                  "           File  : {file}\n"
-                  "           Author: {author}".format(
-                serverity=incident.serverity.short,
-                code=incident.code.code,
-                file=incident.filename,
-                offend=incident.offend,
-                author=incident.author,
-                message=incident.code.description))
-            if incident.serverity == ScannerReport.SeverityLevel.ERROR and incident.offend:
-                print("           Offend: {}".format(incident.offend))
+
+        reordered = sorted(self.incidents, key=lambda x: x.serverity.code, reverse=True)
+        for incident in reordered:
+            incident.dump()
 
 class Scanner(ABC):
     """!

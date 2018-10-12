@@ -106,10 +106,25 @@ class GitScanner(Scanner):
                                 offend=None,
                                 author=commit2.author.name))
 
-                # Check for string entropy
+
+
                 for line in str(diff).splitlines():
                     if not line or line[0] != '+': continue
                     line = line[1:]
+                    # Check for blacklisted keywords
+                    if SecretValidator.blacklisted_keyword(line):
+                        serverity = ScannerReport.SeverityLevel.WARN \
+                                    if self._is_excluded(filename) \
+                                    else ScannerReport.SeverityLevel.ERROR
+                        report.incidents.append(
+                                ScannerReport.Incident(
+                                    serverity=serverity,
+                                    code=ScannerReport.Incident.Code.BLACKLIST_STRING,
+                                    filename=filename,
+                                    offend=line,
+                                    author=commit2.author.name))
+                        continue  # no need to check entropy
+                    # Check for string entropy
                     if SecretValidator.check_entropy(line):
                         serverity = ScannerReport.SeverityLevel.WARN \
                                     if self._is_excluded(filename) \

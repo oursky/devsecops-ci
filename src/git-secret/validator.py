@@ -7,7 +7,7 @@ import math
 class SecretValidator():
     @staticmethod
     def whitelist_filename(filename):
-        ex = ".*\/require.*\.txt"
+        ex = ".*\/require.*\.txt|.*\.pbxproj|.*package.json|.*yarn.lock"
         matched = re.compile(ex).match(filename)
         return matched is not None
 

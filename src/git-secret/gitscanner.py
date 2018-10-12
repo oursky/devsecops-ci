@@ -16,8 +16,6 @@ class GitScanner(Scanner):
         pass
 
     def _is_excluded(self, filename):
-        if SecretValidator.whitelist_filename(filename):
-            return True
         if not self._exclude:
             return False
         return re.compile(self._exclude).match(filename) != None
@@ -91,6 +89,10 @@ class GitScanner(Scanner):
                 if not filename:
                     continue  # skip deleted file
                 filename = filename.strip(" ")
+
+                if SecretValidator.whitelist_filename(filename):
+                    continue
+
                 # Check for blacklisted filename
                 if SecretValidator.blacklisted_filename(filename):
                     serverity = ScannerReport.SeverityLevel.WARN \
@@ -119,7 +121,6 @@ class GitScanner(Scanner):
                                     filename=filename,
                                     offend=line,
                                     author=commit2.author.name))
-                        break
         if not self._verbose:
             print("")
 

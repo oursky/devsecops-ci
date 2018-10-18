@@ -2,9 +2,12 @@ To suppress particular issue, add a section to .devsecops-ci on your target code
 
 [git-secret]
 exclude: pattern
+allow_secrets:
+    secret1
+    secret2
 
 Where pattern is python compatible regex for filename to skip, eg. .*test.*|dir/file1.
-
+Use allow_secrets to whitelist individual string.
 
 *****************************************
 * IMPORTANT WARNING

@@ -4,7 +4,7 @@ from git import Repo, NULL_TREE
 from git.exc import InvalidGitRepositoryError, NoSuchPathError
 from arguments import Arguments
 from scanner import Scanner, ScannerReport
-from validator import SecretValidator
+from checker import SecretChecker
 
 
 class GitScanner(Scanner):
@@ -13,6 +13,7 @@ class GitScanner(Scanner):
         self._repo_dir = args.target_dir
         self._commit_range = args.commit_range
         self._exclude = args.config.exclude
+        self._allow_secrets = args.config.allow_secrets
         pass
 
     def _is_excluded(self, filename):
@@ -90,11 +91,11 @@ class GitScanner(Scanner):
                     continue  # skip deleted file
                 filename = filename.strip(" ")
 
-                if SecretValidator.whitelist_filename(filename):
+                if SecretChecker.whitelist_filename(filename):
                     continue
 
                 # Check for blacklisted filename
-                if SecretValidator.blacklisted_filename(filename):
+                if SecretChecker.blacklisted_filename(filename):
                     serverity = ScannerReport.SeverityLevel.WARN \
                                 if self._is_excluded(filename) \
                                 else ScannerReport.SeverityLevel.ERROR
@@ -112,7 +113,7 @@ class GitScanner(Scanner):
                     if not line or line[0] != '+': continue
                     line = line[1:]
                     # Check for blacklisted keywords
-                    if SecretValidator.blacklisted_keyword(line):
+                    if SecretChecker.blacklisted_keyword(line):
                         serverity = ScannerReport.SeverityLevel.WARN \
                                     if self._is_excluded(filename) \
                                     else ScannerReport.SeverityLevel.ERROR
@@ -125,7 +126,8 @@ class GitScanner(Scanner):
                                     author=commit2.author.name))
                         continue  # no need to check entropy
                     # Check for string entropy
-                    if SecretValidator.check_entropy(line):
+                    offend = SecretChecker.check_entropy(line, self._allow_secrets)
+                    if offend:
                         serverity = ScannerReport.SeverityLevel.WARN \
                                     if self._is_excluded(filename) \
                                     else ScannerReport.SeverityLevel.ERROR
@@ -134,7 +136,7 @@ class GitScanner(Scanner):
                                     serverity=serverity,
                                     code=ScannerReport.Incident.Code.ENTROPY_STRING,
                                     filename=filename,
-                                    offend=line,
+                                    offend=offend,
                                     author=commit2.author.name))
         if not self._verbose:
             print("")

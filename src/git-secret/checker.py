@@ -28,7 +28,7 @@ RE_WORD_DELIMITER = re.compile("\s|\\|{|}|`|=|\(|\)|\[|\]|\/|<|>|\:|\@|\.")
 FALSE_POSITIVES = []
 
 
-class SecretValidator():
+class SecretChecker():
     @staticmethod
     def whitelist_filename(filename):
         matched = RE_WHITELIST_FILENAME.match(filename)
@@ -53,7 +53,7 @@ class SecretValidator():
         return sum(e_x)
 
     @staticmethod
-    def check_entropy(text, minlen=20, entropy=4.5):
+    def check_entropy(text, whitelist, minlen=20, entropy=4.5):
         words = RE_WORD_DELIMITER.split(text)
         for word in words:
             if not word: continue
@@ -65,7 +65,9 @@ class SecretValidator():
                 continue
             if word in FALSE_POSITIVES:
                 continue
-            h = SecretValidator._shannon_entropy(word)
+            if word in whitelist:
+                continue
+            h = SecretChecker._shannon_entropy(word)
             if h >= entropy:
-                return True
-        return False
+                return word
+        return None

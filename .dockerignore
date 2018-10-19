@@ -18,3 +18,4 @@ coverage.xml
 *,cover
 *.log
 .git
+.DS_Store

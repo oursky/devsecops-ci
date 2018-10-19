@@ -65,13 +65,13 @@ function check {
                  | sed 's/.*\:[[:space:]]*//' \
                  | sed 's/,/|/g'`
         if [ "$EXCLUDE" != "" ]; then
-            FILES=`find "${TARGET_DIR}/" -type f -name 'package.json' -print | grep -Ev "${EXCLUDE}" | sed ':a;N;$!ba;s/\n/ /g'`
-            EXCLUDED_FILES=`find "${TARGET_DIR}/" -type f -name 'package.json' -print | grep -E "${EXCLUDE}" | sed ':a;N;$!ba;s/\n/ /g'`
+            FILES=`find "${TARGET_DIR}/" -type f -name 'package-lock.json' -print | grep -Ev "${EXCLUDE}" | sed ':a;N;$!ba;s/\n/ /g'`
+            EXCLUDED_FILES=`find "${TARGET_DIR}/" -type f -name 'package-lock.json' -print | grep -E "${EXCLUDE}" | sed ':a;N;$!ba;s/\n/ /g'`
         else
-            FILES=`find "${TARGET_DIR}/" -type f -name 'package.json' -print | sed ':a;N;$!ba;s/\n/ /g'`
+            FILES=`find "${TARGET_DIR}/" -type f -name 'package-lock.json' -print | sed ':a;N;$!ba;s/\n/ /g'`
         fi
     else
-        FILES=`find "${TARGET_DIR}/" -type f -name 'package.json' -print | sed ':a;N;$!ba;s/\n/ /g'`
+        FILES=`find "${TARGET_DIR}/" -type f -name 'package-lock.json' -print | sed ':a;N;$!ba;s/\n/ /g'`
     fi
     if [ "$VERBOSE" == "yes" ]; then
         if [ "$EXCLUDED_FILES" != "" ]; then
@@ -84,8 +84,10 @@ function check {
     fi
     for file in ${FILES}
     do
-        echo "[I] Checking ${file#$TARGET_DIR/}"
-        (cd "${file%/*}" && npm audit)
+        if [ -f "${file%/*}/package.json" ]; then
+            echo "[I] Checking ${file#$TARGET_DIR/}"
+            (cd "${file%/*}" && npm audit)
+        fi
     done
 }
 

@@ -76,12 +76,12 @@ class GitScanner(Scanner):
             print("[I] Number of commits: ", len(commits) -1)
 
         # look into commit diffs
-        for index in range(len(commits) - 1):
+        for index in reversed(range(len(commits) - 1)):
             commit1 = commits[index]
             commit2 = commits[index+1]
 
             if self._verbose:
-                print("[I] {} -> {}".format(commit1.hexsha, commit2.hexsha))
+                print("[I] {} -> {}".format(commit2.hexsha, commit1.hexsha))
             else:
                 print('.', end='', flush=True)
 

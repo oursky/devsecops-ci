@@ -33,6 +33,7 @@ In short, _Security as Code, Compliance as Code, Infrastructure as Code_. The go
 - potential secret committed to git
 - python [safety](https://github.com/pyupio/safety)
 - python [bandit](https://github.com/PyCQA/bandit)
+- [npm audit](https://docs.npmjs.com/cli/audit)
 
 
 ## How to add to your project

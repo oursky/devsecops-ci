@@ -7,6 +7,7 @@ RE_WHITELIST_FILENAME = re.compile(".*require.*\.txt$"
                                    "|.*\.pbxproj$"
                                    "|.*\.xcworkspace\/"
                                    "|.*package\.json$"
+                                   "|.*package-lock\.json$"
                                    "|.*yarn\.lock$"
                                    "|.*\.htm[l]$"
                                    "|.*\.css$",

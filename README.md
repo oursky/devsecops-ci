@@ -34,6 +34,7 @@ In short, _Security as Code, Compliance as Code, Infrastructure as Code_. The go
 - python [safety](https://github.com/pyupio/safety)
 - python [bandit](https://github.com/PyCQA/bandit)
 - [npm audit](https://docs.npmjs.com/cli/audit)
+- [gosec](https://github.com/securego/gosec)
 
 
 ## How to add to your project

@@ -1,7 +1,7 @@
 import sys
 from arguments import Arguments
-from scanner import Scanner, ScannerReport
-from gitscanner import GitScanner
+from report import Report
+from scanner import GitScanner
 
 def main():
     print("[ ] git-secret scanner")
@@ -14,9 +14,9 @@ def main():
     has_error = False
 
     scanner = GitScanner(args)
-    r = scanner.scan()
-    r.dump()
-    if r.code == ScannerReport.Code.FAILED:
+    report = scanner.scan()
+    report.dump()
+    if report.code == Report.Code.FAILED:
         has_error = True
 
     if has_error:

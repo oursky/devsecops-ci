@@ -1,4 +1,3 @@
-.dockerignore
 Dockerfile
 db.sqlite3
 __pycache__
@@ -19,3 +18,9 @@ coverage.xml
 *.log
 .git
 .DS_Store
+*.pem
+*.p12
+*.key
+*.cer
+*.cert
+*.code-workspace

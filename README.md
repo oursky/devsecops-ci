@@ -56,10 +56,33 @@ docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci check --target-dir=/targe
 Where `--target-dir` is optional argument points to the mounted directory, defaults to `/target`.
 `--commit-range` is optional argument to check only selected commit revisions, e.g. `--commit-range=revA..revB` or `--commit-range=${TRAVIS_COMMIT_RANGE}`.
 
-
 This run check against current `pwd`, this directory should be the top level directory of your project.
-
 You can also build and run it locally on your development computer.
+
+
+## Suppress false alarm
+You may suppress false alarm by adding entry to `.devsecops-ci` file.
+
+##### Secret Scanner
+```
+[git-secret]
+exclude: .travis.yml|dir/*.example
+allow_secrets:
+    secret1
+    secret2
+```
+`exclude` takes a [regex](https://docs.python.org/3/library/re.html) and suppress checking on matched files.  
+`allow_secrets` take a list of whitelisted string to ignore, which is partiicularly useful for non-secret like sentry DSN.  
+
+##### bandit
+```
+[bandit]
+exclude: alembic,tests
+skips: B123,B456
+```
+`exclude` takes a comma-separated list of directory or filename and suppress checking on matched files.  
+`skips` suppress checking on particular test cases.  
+Check https://github.com/PyCQA/bandit for detail.  
 
 
 <!-- Markdown link & img dfn's -->

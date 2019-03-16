@@ -9,6 +9,8 @@ RE_WHITELIST_FILENAME = re.compile(".*require.*\.txt$"
                                    "|.*package\.json$"
                                    "|.*package-lock\.json$"
                                    "|.*yarn\.lock$"
+                                   "|.*\.gpg$"
+                                   "|.*\.pub$"
                                    "|.*\.htm[l]$"
                                    "|.*\.css$",
                                    re.IGNORECASE)

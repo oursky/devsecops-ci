@@ -66,7 +66,12 @@ class SecretChecker():
                 continue
             if word in FALSE_POSITIVES:
                 continue
-            if word in whitelist:
+            whitelisted = False
+            for wl in whitelist:
+                if re.compile(wl, re.IGNORECASE).match(word):
+                    whitelisted = True
+                    break
+            if whitelisted:
                 continue
             h = SecretChecker._shannon_entropy(word)
             if h >= entropy:

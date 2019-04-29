@@ -111,9 +111,9 @@ class GitScanner():
 
                 for line in str(diff).splitlines():
                     if not line or line[0] != '+': continue
-                    line = line[1:]
+                    line = line[1:].strip()
                     # Check for blacklisted keywords
-                    if SecretChecker.blacklisted_keyword(line):
+                    if SecretChecker.blacklisted_keyword(line, self._allow_secrets):
                         serverity = Report.SeverityLevel.WARN \
                                     if self._is_excluded(filename) \
                                     else Report.SeverityLevel.ERROR

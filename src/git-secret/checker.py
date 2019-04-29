@@ -3,7 +3,8 @@ import collections
 import math
 
 
-RE_WHITELIST_FILENAME = re.compile(".*require.*\.txt$"
+RE_WHITELIST_FILENAME = re.compile("\.devsecops-ci$"
+                                   "|.*require.*\.txt$"
                                    "|.*\.pbxproj$"
                                    "|.*\.xcworkspace\/"
                                    "|.*package\.json$"

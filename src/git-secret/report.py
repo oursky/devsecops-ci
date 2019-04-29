@@ -65,7 +65,7 @@ class ReportIncident():
                 author=self.author,
                 message=self.code.description))
         if self.serverity == Report.SeverityLevel.ERROR and self.offend:
-            print("         * Offend: {}".format(self.offend))
+            print("         * Offend: >>>{}<<<".format(self.offend))
 
 
 class Report:

@@ -43,8 +43,11 @@ class SecretChecker():
         return matched is not None
 
     @staticmethod
-    def blacklisted_keyword(text):
+    def blacklisted_keyword(text, whitelist):
         if RE_BLACKLIST_STRING.match(text):
+            for wl in whitelist:
+                if re.compile(wl, re.IGNORECASE).match(text):
+                    return False
             return True
         return False
 

@@ -15,7 +15,7 @@ def main():
 
     scanner = GitScanner(args)
     report = scanner.scan()
-    report.dump()
+    report.dump(args.verbose)
     if report.code == Report.Code.FAILED:
         has_error = True
 

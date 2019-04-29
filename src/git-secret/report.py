@@ -52,7 +52,9 @@ class ReportIncident():
         self.offend = offend
         self.author = author
 
-    def dump(self):
+    def dump(self, verbose=True):
+        if not verbose and (self.serverity == ReportSeverityLevel.INFO or self.serverity == ReportSeverityLevel.WARN):
+            return
         print("- [{serverity}:{code}] {message}\n"
               "           File  : {file}\n"
               "           Author: {author}".format(
@@ -75,9 +77,9 @@ class Report:
         self.code = code
         self.incidents = []
 
-    def dump(self):
+    def dump(self, verbose=True):
         print("[ ] Scan result: {}".format(self.code.name))
 
         reordered = sorted(self.incidents, key=lambda x: x.serverity.code, reverse=True)
         for incident in reordered:
-            incident.dump()
+            incident.dump(verbose)

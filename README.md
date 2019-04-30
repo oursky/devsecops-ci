@@ -60,6 +60,27 @@ This run check against current `pwd`, this directory should be the top level dir
 You can also build and run it locally on your development computer.
 
 
+## Integrate with TravisCI
+Add a job to `.travis.yml`
+```
+matrix:
+  include:
+    # your project build jobs
+    - language: node_js
+    ...
+
+    # devsecops-ci
+    - language: minimal
+      dist: xenial
+      services:
+        - docker
+      before_install:
+        - docker build -t devsecops-ci https://github.com/oursky/devsecops-ci.git
+      script:
+        - docker run -it --rm -v "`pwd`:/target:ro" devsecops-ci check --verbose=no --commit-range=${TRAVIS_COMMIT_RANGE}
+```
+
+
 ## Suppress false alarm
 You may suppress false alarm by adding entry to `.devsecops-ci` file.
 

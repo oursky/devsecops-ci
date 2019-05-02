@@ -1,0 +1,16 @@
+.git
+.svn
+*.gpg
+*.pfx
+*.pem
+*.cer
+*.cert
+*.p12
+*.p8
+*.key
+.env
+.env.*
+docker-compose.override.yml
+
+_build/
+.merlin

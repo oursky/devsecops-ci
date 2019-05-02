@@ -1,0 +1,9 @@
+opam-version: "2.0"
+maintainer: "Louis Chan <louischan@oursky.com>"
+synopsis: "Enforce ignore patterns in ignore files"
+depends: [
+  "ocaml" {>= "4.07.1"}
+  "dune" {build}
+  "craml" {with-test}
+  "cmdliner" {>= "1.0.0"}
+]

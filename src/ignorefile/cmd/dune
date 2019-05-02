@@ -1,0 +1,11 @@
+(executable
+ (name ignorefile)
+ (libraries ignorefilelib report cmdliner))
+
+(alias
+ (name runtest)
+ (deps ignorefile.exe mytest.t good.ignore bad.ignore)
+ (action
+  (progn
+   (run craml mytest.t)
+   (diff? mytest.t mytest.t.corrected))))

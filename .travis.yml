@@ -1,19 +1,13 @@
 branches:
   only:
     - master
-    - staging
     - experimental
 
 matrix:
   include:
     # devsecops-ci docker
-    - language: python
-      python: 3.6
-      sudo: required
-      addons:
-        apt:
-          packages:
-            - docker-ce
+    - language: minimal
+      dist: xenial
       services:
         - docker
       script:

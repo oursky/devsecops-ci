@@ -1,6 +1,7 @@
 .PHONY: all build check 
 
 all: build
+	@:
 
 build:
 	@apk add --update nodejs nodejs-npm

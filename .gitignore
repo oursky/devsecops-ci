@@ -12,3 +12,6 @@ env
 *.cer
 *.cert
 *.code-workspace
+
+*.pfx
+docker-compose.override.yml

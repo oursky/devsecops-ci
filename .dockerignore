@@ -24,3 +24,7 @@ coverage.xml
 *.cer
 *.cert
 *.code-workspace
+
+.git/
+*.pfx
+docker-compose.override.yml
